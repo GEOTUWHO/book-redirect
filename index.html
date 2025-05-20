@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Redirecting You to Amazon</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 60px 20px;
+      background-color: #f5f5f5;
+      color: #333;
+    }
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #333;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    a {
+      color: #0066c0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Hold on!</h1>
+  <p>We’re sending you to your local Amazon store to grab your copy of <strong>Think Like an Entrepreneur</strong>.</p>
+  <div class="loader"></div>
+  <p>If you’re not redirected automatically, <a href="https://www.amazon.com/dp/BOF6BNZZ6PG" id="manual-link">click here</a>.</p>
+
+  <script>
+    const amazonLinks = {
+      "US": "https://www.amazon.com/dp/BOF6BNZZ6PG",
+      "CA": "https://www.amazon.ca/dp/BOF6BNZZ6PG",
+      "UK": "https://www.amazon.co.uk/dp/BOF6BNZZ6PG",
+      "IN": "https://www.amazon.in/dp/BOF6BNZZ6PG",
+      "DE": "https://www.amazon.de/dp/BOF6BNZZ6PG",
+      "FR": "https://www.amazon.fr/dp/BOF6BNZZ6PG",
+      "JP": "https://www.amazon.co.jp/dp/BOF6BNZZ6PG",
+      "AU": "https://www.amazon.com.au/dp/BOF6BNZZ6PG"
+    };
+    const defaultLink = "https://www.amazon.com/dp/BOF6BNZZ6PG";
+
+    fetch("https://ipapi.co/json/")
+      .then(res => res.json())
+      .then(data => {
+        const countryCode = data.country_code;
+        const redirectLink = amazonLinks[countryCode] || defaultLink;
+        window.location.href = redirectLink;
+      })
+      .catch(() => {
+        window.location.href = defaultLink;
+      });
+  </script>
+</body>
+</html>
